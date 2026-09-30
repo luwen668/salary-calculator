@@ -257,6 +257,10 @@
     syncRateUI();
     render();
     if (source !== "map" && cityMap) cityMap.setSelected(key);
+    // 顶部横幅同步（下拉框 & 地图点击两条路径都更新）
+    $("map-current-city").textContent = c.name;
+    $("map-current-sub").textContent =
+      `社保基数 ${fmtInt(c.socialBase.min)} – ${fmtInt(c.socialBase.max)} · ${DATA_YEAR}`;
   }
   citySel.addEventListener("change", () => selectCity(citySel.value, "select"));
 
@@ -267,11 +271,7 @@
       container: $("china-map"),
       initial: citySel.value,
       onSelect(key) {
-        const c = CITIES[key];
         selectCity(key, "map");
-        $("map-current-city").textContent = c.name;
-        $("map-current-sub").textContent =
-          `社保基数 ${fmtInt(c.socialBase.min)} – ${fmtInt(c.socialBase.max)} · ${DATA_YEAR}`;
       },
     });
     // 初始化顶部显示
